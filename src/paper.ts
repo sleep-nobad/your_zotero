@@ -403,3 +403,4 @@ export function metadataSummary(metadata: PaperMetadata): string {
     `摘要：${metadata.abstract || "无"}`,
   ].join("\n");
 }
+
