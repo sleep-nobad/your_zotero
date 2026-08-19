@@ -2,6 +2,7 @@ import { callAI, searchBackground } from "./ai";
 import {
   ingestCurrentPaper,
   metadataSummary,
+  readPaperText,
   resolveCurrentPaper,
   selectChapterEvidence,
   selectEvidence,
@@ -9,7 +10,7 @@ import {
 import { renderMarkdown } from "./markdown";
 import { getPreferences } from "./prefs";
 import { exportMarkdown, loadSession, saveSession } from "./storage";
-import { getVectorIndexStatus } from "./vector-index";
+import { getVectorIndexStatus, paperContentHash } from "./vector-index";
 import type {
   ActionKind,
   ConversationEntry,
@@ -247,7 +248,7 @@ export class CompanionUI {
 
   async show(): Promise<void> {
     this.root.dataset.open = "true";
-    await this.syncCurrentPaper();
+    await this.syncCurrentPaper(true);
     this.input.focus();
   }
 
@@ -286,14 +287,34 @@ export class CompanionUI {
     this.paperTitle.dataset.ready = String(ready);
   }
 
-  private async syncCurrentPaper(): Promise<void> {
+  private async detectCurrentPaperIndex(
+    metadata: PaperMetadata,
+    attachment: Zotero.Item,
+  ): Promise<Awaited<ReturnType<typeof getVectorIndexStatus>> | null> {
+    if (!getPreferences().embeddingVerifiedAt) return null;
     try {
-      const { metadata } = resolveCurrentPaper(this.win);
+      const text = await readPaperText(attachment);
+      return await getVectorIndexStatus(metadata, paperContentHash(text));
+    } catch (error) {
+      Zotero.logError(error instanceof Error ? error : new Error(String(error)));
+      return null;
+    }
+  }
+
+  private async syncCurrentPaper(forceIndexCheck = false): Promise<void> {
+    try {
+      const { metadata, attachment } = resolveCurrentPaper(this.win);
       this.paperTitle.textContent = metadata.title;
-      if (
+      const samePaper =
         this.currentPaper?.itemKey === metadata.itemKey &&
-        this.currentPaper.libraryID === metadata.libraryID
-      ) {
+        this.currentPaper.libraryID === metadata.libraryID;
+      if (samePaper && !forceIndexCheck) {
+        return;
+      }
+      if (samePaper) {
+        const index = await this.detectCurrentPaperIndex(metadata, attachment);
+        this.setIndexReady(Boolean(index));
+        if (index) this.setStatus(`索引已检测 · ${index.chunkCount} 个片段`);
         return;
       }
       this.currentPaper = metadata;
@@ -304,9 +325,7 @@ export class CompanionUI {
       // then guaranteed to have the exact answer displayed beside it.
       this.promptHistory = this.conversation.map((entry) => entry.input).slice(-100);
       this.historyIndex = this.conversation.length;
-      const restoredIndex = this.restored?.contentHash
-        ? await getVectorIndexStatus(metadata, this.restored.contentHash)
-        : null;
+      const restoredIndex = await this.detectCurrentPaperIndex(metadata, attachment);
       this.setIndexReady(Boolean(restoredIndex));
       if (this.restored) {
         this.setStatus(
@@ -317,7 +336,9 @@ export class CompanionUI {
         const last = this.conversation.at(-1);
         if (last) this.showOutput("上次回答", last.output);
       } else {
-        this.setStatus("尚未读入全文");
+        this.setStatus(
+          restoredIndex ? `索引已检测 · ${restoredIndex.chunkCount} 个片段` : "尚未建立全文索引",
+        );
         this.outputWrap.dataset.visible = "false";
       }
     } catch (error) {
@@ -832,4 +853,3 @@ export class CompanionUI {
     });
   }
 }
-
