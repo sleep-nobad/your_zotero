@@ -1,0 +1,20 @@
+{
+  "addons": {
+    "your_zotero@zotero.local": {
+      "updates": [
+        {
+          "version": "0.8.0",
+          "update_link": "https://raw.githubusercontent.com/sleep-nobad/your_zotero/main/release/your-zotero.xpi",
+          "update_hash": "sha512:1425420488bbe684594315730bb53d2fa225cf0b58801bd57fd5453b47dc2d5f8c3465212277e00e0270d24e34ceffada805e6c3e49c1a0fd1ae3b12f27b185b",
+          "applications": {
+            "zotero": {
+              "strict_min_version": "9.0",
+              "strict_max_version": "9.*"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+

@@ -1,0 +1,20 @@
+pref("provider", "openai");
+pref("apiBase", "https://api.openai.com/v1");
+pref("apiKey", "");
+pref("model", "");
+pref("modelCatalog", "[]");
+pref("aiVerifiedAt", "");
+pref("embeddingReuseAI", true);
+pref("embeddingProvider", "openai");
+pref("embeddingBase", "https://api.openai.com/v1");
+pref("embeddingKey", "");
+pref("embeddingModel", "");
+pref("embeddingCatalog", "[]");
+pref("embeddingVerifiedAt", "");
+pref("retrievalProvider", "crossref");
+pref("retrievalApiKey", "");
+pref("retrievalVerifiedAt", "");
+pref("maxEvidenceTokens", 6000);
+pref("storageDirectory", "");
+pref("language", "zh-CN");
+

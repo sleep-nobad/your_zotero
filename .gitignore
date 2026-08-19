@@ -1,0 +1,12 @@
+node_modules/
+.scaffold/
+build/
+.env
+*.xpi
+*.log
+*.tsbuildinfo
+# Source copies of UI assets are kept locally; packaged copies live under addon/content/icons.
+/paper-plane-right.svg
+/pause.svg
+/stop.svg
+

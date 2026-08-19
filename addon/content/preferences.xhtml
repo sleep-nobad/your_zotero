@@ -1,0 +1,273 @@
+<groupbox onload="Zotero.YourZotero.hooks.onPrefsLoad(window)">
+  <html:style>
+    .pc-prefs { max-width: 800px; padding: 8px 4px 30px; color: var(--fill-primary); } .pc-prefs h2
+    { margin: 10px 0 4px; font-size: 21px; font-weight: 680; } .pc-prefs .intro { margin: 0 0 18px;
+    color: var(--fill-secondary); line-height: 1.55; } .pc-card { margin: 12px 0; padding: 18px;
+    border: 1px solid color-mix(in srgb, currentColor 12%, transparent); border-radius: 16px;
+    background: color-mix(in srgb, Canvas 95%, currentColor 5%); } .pc-card h3 { margin: 0 0 5px;
+    font-size: 15px; } .pc-card-note { margin: 0 0 14px; color: var(--fill-secondary); font-size:
+    12px; line-height: 1.5; } .pc-field { display: grid; grid-template-columns: 142px minmax(280px,
+    1fr); align-items: center; gap: 12px; margin: 11px 0; } .pc-field label { font-size: 13px;
+    color: var(--fill-secondary); } .pc-field input, .pc-field select { box-sizing: border-box;
+    width: 100%; min-height: 35px; padding: 7px 10px; border: 1px solid color-mix(in srgb,
+    currentColor 18%, transparent); border-radius: 9px; background: Canvas; color: CanvasText; }
+    .pc-inline { display: flex; align-items: center; gap: 7px; min-width: 0; } .pc-inline input,
+    .pc-inline select { min-width: 0; flex: 1; } .pc-check { display: inline-flex; align-items:
+    center; gap: 8px; font-size: 13px; } .pc-check input { width: auto; min-height: auto; }
+    .pc-button { flex: 0 0 auto; min-height: 33px; padding: 6px 11px; border: 1px solid color-mix(in
+    srgb, currentColor 16%, transparent); border-radius: 9px; background: color-mix(in srgb, Canvas
+    92%, currentColor 8%); color: CanvasText; cursor: pointer; } .pc-button:hover { border-color:
+    #3277f6; color: #3277f6; } .pc-button:disabled { opacity: .55; cursor: default; } .pc-primary {
+    border: 0; background: #3277f6; color: white; font-weight: 600; } .pc-primary:hover { color:
+    white; background: #2368e6; } .pc-tip { margin: 10px 0 0; font-size: 12px; color:
+    var(--fill-secondary); line-height: 1.55; } .pc-actions { display: flex; align-items: center;
+    flex-wrap: wrap; gap: 9px; margin-top: 14px; } .pc-result { min-height: 18px; margin: 10px 0 0;
+    font-size: 12px; line-height: 1.5; color: var(--fill-secondary); } [data-state="success"] {
+    color: #18894b; } [data-state="error"] { color: #d83a42; } [data-state="warning"] { color:
+    #b66a05; } [data-state="loading"] { color: #3277f6; } .pc-advanced { margin-top: 14px;
+    border-top: 1px solid color-mix(in srgb, currentColor 10%, transparent); padding-top: 12px; }
+    .pc-advanced summary { color: var(--fill-secondary); font-size: 12px; cursor: pointer;
+    user-select: none; } .pc-shortcut { display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 8px; } .pc-key { min-width: 23px; padding: 4px 8px; border: 1px solid color-mix(in
+    srgb, currentColor 18%, transparent); border-radius: 7px; background: Canvas; box-shadow: 0 1px
+    1px color-mix(in srgb, currentColor 12%, transparent); text-align: center; font-size: 12px;
+    font-weight: 620; } [hidden] { display: none !important; } @media (max-width: 680px) { .pc-field
+    { grid-template-columns: 1fr; gap: 5px; } .pc-inline { flex-wrap: wrap; } }
+  </html:style>
+  <html:div class="pc-prefs">
+    <html:h2>your_zotero</html:h2>
+    <html:p class="intro"
+      >按顺序完成问答模型、Embedding 模型和文献检索配置。每一项都会发起真实请求验证。</html:p
+    >
+
+    <html:section class="pc-card">
+      <html:h3>1. AI 问答模型</html:h3>
+      <html:p class="pc-card-note"
+        >选择厂商、填写 Key、获取账户模型，然后验证所选模型。无需手写模型名称。</html:p
+      >
+      <html:div class="pc-field">
+        <html:label for="papercompanion-provider">API 厂商</html:label>
+        <html:select id="papercompanion-provider">
+          <html:option value="openai">OpenAI</html:option>
+          <html:option value="deepseek">DeepSeek</html:option>
+          <html:option value="kimi">Kimi / Moonshot</html:option>
+          <html:option value="siliconflow">硅基流动</html:option>
+          <html:option value="openrouter">OpenRouter</html:option>
+          <html:option value="custom">自定义 OpenAI 兼容接口</html:option>
+        </html:select>
+      </html:div>
+      <html:div class="pc-field">
+        <html:label for="papercompanion-api-key">AI API Key</html:label>
+        <html:div class="pc-inline">
+          <html:input
+            id="papercompanion-api-key"
+            type="password"
+            autocomplete="off"
+            placeholder="粘贴 AI 服务的 API Key"
+          />
+          <html:button id="papercompanion-show-api-key" class="pc-button" type="button"
+            >显示</html:button
+          >
+          <html:button id="papercompanion-open-key-page" class="pc-button" type="button"
+            >申请 Key</html:button
+          >
+        </html:div>
+      </html:div>
+      <html:div class="pc-field">
+        <html:label for="papercompanion-model">问答模型</html:label>
+        <html:div class="pc-inline">
+          <html:select id="papercompanion-model">
+            <html:option value="">请先点击“获取模型”</html:option>
+          </html:select>
+          <html:button id="papercompanion-fetch-models" class="pc-button" type="button"
+            >获取模型</html:button
+          >
+        </html:div>
+      </html:div>
+      <html:div class="pc-actions">
+        <html:button id="papercompanion-test-api" class="pc-button pc-primary" type="button"
+          >验证所选模型</html:button
+        >
+        <html:button id="papercompanion-open-docs" class="pc-button" type="button"
+          >查看接口文档</html:button
+        >
+      </html:div>
+      <html:p id="papercompanion-ai-result" class="pc-result">尚未验证 AI 服务</html:p>
+      <html:details class="pc-advanced">
+        <html:summary>高级设置</html:summary>
+        <html:div class="pc-field">
+          <html:label for="papercompanion-api-base">API Base URL</html:label>
+          <html:input
+            id="papercompanion-api-base"
+            type="url"
+            placeholder="https://api.openai.com/v1"
+          />
+        </html:div>
+        <html:div class="pc-field">
+          <html:label for="papercompanion-max-evidence">证据 Token 预算</html:label>
+          <html:input
+            id="papercompanion-max-evidence"
+            type="number"
+            min="2000"
+            max="16000"
+            step="500"
+          />
+        </html:div>
+      </html:details>
+      <html:p class="pc-tip"
+        >Key 仅保存在本机 Zotero
+        偏好设置中。验证会向所选模型发送极短测试消息，可能产生极少量费用。</html:p
+      >
+    </html:section>
+
+    <html:section class="pc-card">
+      <html:h3>2. Embedding 模型</html:h3>
+      <html:p class="pc-card-note"
+        >用于为当前论文建立语义索引，让每次问答优先召回本文原文证据。全文向量只在首次处理或文档变化后重新生成。</html:p
+      >
+      <html:label class="pc-check">
+        <html:input id="papercompanion-embedding-reuse" type="checkbox" />
+        复用问答服务的厂商、API 地址和 Key
+      </html:label>
+      <html:div id="papercompanion-embedding-custom-fields">
+        <html:div class="pc-field">
+          <html:label for="papercompanion-embedding-provider">Embedding 厂商</html:label>
+          <html:select id="papercompanion-embedding-provider">
+            <html:option value="openai">OpenAI</html:option>
+            <html:option value="siliconflow">硅基流动</html:option>
+            <html:option value="ollama">Ollama 本地模型（自动检测）</html:option>
+            <html:option value="openrouter">OpenRouter</html:option>
+            <html:option value="deepseek">DeepSeek</html:option>
+            <html:option value="kimi">Kimi / Moonshot</html:option>
+            <html:option value="custom">自定义 OpenAI 兼容接口</html:option>
+          </html:select>
+        </html:div>
+        <html:div id="papercompanion-embedding-key-row" class="pc-field">
+          <html:label for="papercompanion-embedding-key">Embedding Key</html:label>
+          <html:div class="pc-inline">
+            <html:input
+              id="papercompanion-embedding-key"
+              type="password"
+              autocomplete="off"
+              placeholder="粘贴 Embedding 服务 API Key"
+            />
+            <html:button id="papercompanion-show-embedding-key" class="pc-button" type="button"
+              >显示</html:button
+            >
+            <html:button id="papercompanion-open-embedding-key-page" class="pc-button" type="button"
+              >申请 Key</html:button
+            >
+          </html:div>
+        </html:div>
+        <html:details id="papercompanion-embedding-advanced" class="pc-advanced">
+          <html:summary>Embedding 高级设置</html:summary>
+          <html:div class="pc-field">
+            <html:label for="papercompanion-embedding-base">API Base URL</html:label>
+            <html:input
+              id="papercompanion-embedding-base"
+              type="url"
+              placeholder="https://api.openai.com/v1"
+            />
+          </html:div>
+        </html:details>
+      </html:div>
+      <html:div class="pc-field">
+        <html:label for="papercompanion-embedding-model">Embedding 模型</html:label>
+        <html:div class="pc-inline">
+          <html:select id="papercompanion-embedding-model">
+            <html:option value="">请先点击“获取模型”</html:option>
+          </html:select>
+          <html:button id="papercompanion-fetch-embedding-models" class="pc-button" type="button"
+            >获取模型</html:button
+          >
+        </html:div>
+      </html:div>
+      <html:div class="pc-actions">
+        <html:button id="papercompanion-test-embedding" class="pc-button pc-primary" type="button"
+          >验证 Embedding</html:button
+        >
+        <html:button id="papercompanion-open-embedding-docs" class="pc-button" type="button"
+          >查看接口文档</html:button
+        >
+      </html:div>
+      <html:p id="papercompanion-embedding-result" class="pc-result"
+        >尚未验证 Embedding 服务</html:p
+      >
+      <html:p class="pc-tip"
+        >如果问答厂商不提供 Embedding 模型，请取消复用并单独配置；选择 Ollama
+        后会自动检测本机服务和已安装模型，无需 Key。</html:p
+      >
+    </html:section>
+
+    <html:section class="pc-card">
+      <html:h3>3. 文献检索服务</html:h3>
+      <html:p class="pc-card-note"
+        >用于“补齐背景”。它与 AI Key 分开配置，外部资料也会与当前论文内容分开标注。</html:p
+      >
+      <html:div class="pc-field">
+        <html:label for="papercompanion-retrieval-provider">检索服务</html:label>
+        <html:select id="papercompanion-retrieval-provider">
+          <html:option value="crossref">Crossref（无需 Key，推荐）</html:option>
+          <html:option value="openalex">OpenAlex（需要免费 Key）</html:option>
+          <html:option value="semantic-scholar">Semantic Scholar</html:option>
+        </html:select>
+      </html:div>
+      <html:div id="papercompanion-retrieval-key-row" class="pc-field">
+        <html:label for="papercompanion-retrieval-key">检索 API Key</html:label>
+        <html:input
+          id="papercompanion-retrieval-key"
+          type="password"
+          autocomplete="off"
+          placeholder="粘贴文献检索服务的 API Key"
+        />
+      </html:div>
+      <html:div class="pc-actions">
+        <html:button id="papercompanion-test-retrieval" class="pc-button pc-primary" type="button"
+          >验证检索服务</html:button
+        >
+        <html:button id="papercompanion-open-retrieval-page" class="pc-button" type="button"
+          >查看检索服务说明</html:button
+        >
+      </html:div>
+      <html:p id="papercompanion-retrieval-result" class="pc-result">尚未验证文献检索服务</html:p>
+    </html:section>
+
+    <html:section class="pc-card">
+      <html:h3>4. 本地存储</html:h3>
+      <html:p class="pc-card-note"
+        >全文向量使用紧凑二进制格式保存在本地。留空时使用 Zotero
+        配置目录，也可以指定其他本地目录。</html:p
+      >
+      <html:div class="pc-field">
+        <html:label for="papercompanion-storage-directory">存储位置</html:label>
+        <html:div class="pc-inline">
+          <html:input id="papercompanion-storage-directory" type="text" readonly="readonly" />
+          <html:button id="papercompanion-choose-storage" class="pc-button" type="button"
+            >选择目录</html:button
+          >
+          <html:button id="papercompanion-reset-storage" class="pc-button" type="button"
+            >恢复默认</html:button
+          >
+        </html:div>
+      </html:div>
+      <html:p id="papercompanion-storage-result" class="pc-result"
+        >索引、暂存会话和草稿均保存在本机</html:p
+      >
+      <html:p class="pc-tip"
+        >更改位置只影响之后读写的数据，不会自动删除或迁移旧目录中的文件。</html:p
+      >
+    </html:section>
+
+    <html:section class="pc-card">
+      <html:h3>快捷键</html:h3>
+      <html:p class="pc-card-note">在 Zotero 主窗口内显示或隐藏悬浮框。</html:p>
+      <html:div class="pc-shortcut"
+        ><html:span class="pc-key">Ctrl</html:span><html:span>+</html:span
+        ><html:span class="pc-key">2</html:span
+        ><html:span>（macOS 使用 ⌘ + 2）</html:span></html:div
+      >
+      <html:p class="pc-tip">为保证不同 Zotero 版本中的稳定性，本版使用固定快捷键。</html:p>
+    </html:section>
+  </html:div>
+</groupbox>
+

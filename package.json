@@ -1,0 +1,56 @@
+{
+  "name": "your_zotero",
+  "type": "module",
+  "version": "0.8.0",
+  "description": "A paper-grounded AI reading companion for Zotero",
+  "config": {
+    "addonName": "your_zotero",
+    "addonID": "your_zotero@zotero.local",
+    "addonRef": "your_zotero",
+    "addonInstance": "YourZotero",
+    "prefsPrefix": "extensions.zotero.your_zotero"
+  },
+  "author": "your_zotero contributors",
+  "license": "AGPL-3.0-or-later",
+  "homepage": "https://github.com/sleep-nobad/your_zotero",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sleep-nobad/your_zotero.git"
+  },
+  "scripts": {
+    "start": "zotero-plugin serve",
+    "build": "zotero-plugin build && tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/ai-core.test.ts tests/markdown.test.ts && npm run test:integration",
+    "test:integration": "esbuild tests/ai-integration.test.ts --bundle --platform=node --format=esm --outfile=.scaffold/tests/ai-integration.test.mjs && node --test .scaffold/tests/ai-integration.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@types/katex": "^0.16.8",
+    "@types/node": "^24.10.0",
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3",
+    "zotero-plugin-scaffold": "^0.8.2",
+    "zotero-types": "^4.1.0-beta.4"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "tabWidth": 2,
+    "endOfLine": "lf",
+    "overrides": [
+      {
+        "files": [
+          "*.xhtml"
+        ],
+        "options": {
+          "htmlWhitespaceSensitivity": "css"
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "katex": "^0.18.4"
+  }
+}
+

@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Publish XPI and update manifest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p release-upload
+          cp .scaffold/build/your-zotero.xpi release-upload/your-zotero.xpi
+          cp .scaffold/build/update.json release-upload/update.json
+          gh release create "${GITHUB_REF_NAME}" release-upload/your-zotero.xpi release-upload/update.json \
+            --title "your_zotero ${GITHUB_REF_NAME#v}" \
+            --generate-notes
+
