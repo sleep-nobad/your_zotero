@@ -128,6 +128,27 @@ export function splitText(text: string, targetTokens = 420, overlapTokens = 60):
   return chunks;
 }
 
+/**
+ * Read Zotero's cached PDF text without generating embeddings. The cache is
+ * reused when available; indexing is only requested when Zotero has not
+ * extracted this attachment yet.
+ */
+export async function readPaperText(attachment: Zotero.Item): Promise<string> {
+  let cacheFile = Zotero.FullText.getItemCacheFile(attachment);
+  if (!cacheFile.exists()) {
+    await Zotero.FullText.indexItems([attachment.id], { complete: true });
+    cacheFile = Zotero.FullText.getItemCacheFile(attachment);
+  }
+  if (!cacheFile.exists()) {
+    throw new Error("没有从 PDF 中提取到文本；扫描版 PDF 暂不支持自动 OCR");
+  }
+  const text = String(await Zotero.File.getContentsAsync(cacheFile.path)).trim();
+  if (text.length < 200) {
+    throw new Error("PDF 可提取文本过少；它可能是扫描件或文件内容异常");
+  }
+  return text;
+}
+
 function representativeExcerpts(chunks: PaperChunk[], maxChars = 30000): string {
   if (!chunks.length) return "";
   const count = Math.min(12, chunks.length);
@@ -173,15 +194,7 @@ export async function ingestCurrentPaper(
 ): Promise<PaperContext> {
   const { attachment, metadata } = resolveCurrentPaper(win);
   onProgress("正在提取 PDF 全文…");
-  await Zotero.FullText.indexItems([attachment.id], { complete: true });
-  const cacheFile = Zotero.FullText.getItemCacheFile(attachment);
-  if (!cacheFile.exists()) {
-    throw new Error("没有从 PDF 中提取到文本；扫描版 PDF 暂不支持自动 OCR");
-  }
-  const text = String(await Zotero.File.getContentsAsync(cacheFile.path)).trim();
-  if (text.length < 200) {
-    throw new Error("PDF 可提取文本过少；它可能是扫描件或文件内容异常");
-  }
+  const text = await readPaperText(attachment);
   onProgress("正在建立全文检索索引…");
   const chunks = splitText(text);
   if (!chunks.length) throw new Error("全文切分失败");
@@ -390,4 +403,3 @@ export function metadataSummary(metadata: PaperMetadata): string {
     `摘要：${metadata.abstract || "无"}`,
   ].join("\n");
 }
-
