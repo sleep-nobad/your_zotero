@@ -36,4 +36,3 @@ declare namespace _ZoteroTypes {
     YourZotero: YourZoteroGlobal;
   }
 }
-

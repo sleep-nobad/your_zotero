@@ -704,4 +704,3 @@ export function bindPreferencePane(win: Window): void {
   }
   if (prefs.retrievalVerifiedAt) setResult(retrievalResult, "检索服务上次验证成功", "success");
 }
-

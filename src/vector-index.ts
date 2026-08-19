@@ -170,4 +170,3 @@ export function cosineScores(index: VectorIndex, queryVector: number[]): number[
   }
   return scores;
 }
-

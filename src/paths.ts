@@ -68,4 +68,3 @@ export async function chooseStorageDirectory(win: Window): Promise<string | null
   await verifyStorageDirectory(path);
   return path;
 }
-

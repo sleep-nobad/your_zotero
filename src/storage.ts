@@ -160,4 +160,3 @@ export async function exportMarkdown(
   await Zotero.File.putContentsAsync(path, frontMatter + body.trim() + "\n");
   return path;
 }
-

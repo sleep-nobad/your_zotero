@@ -524,4 +524,3 @@ export async function testRetrievalConnection(
   if (!results.length) throw new Error("检索服务已响应，但没有返回测试结果");
   return results.length;
 }
-

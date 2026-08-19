@@ -7,4 +7,3 @@ if (!zoteroGlobal.YourZotero) {
     hooks,
   };
 }
-

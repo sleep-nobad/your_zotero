@@ -74,4 +74,3 @@ test("rejects responses without a final answer", () => {
     /没有生成最终答案/,
   );
 });
-

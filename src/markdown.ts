@@ -103,4 +103,3 @@ export function renderMarkdown(value: string): string {
   if (inCode) output.push("</code></pre>");
   return output.join("");
 }
-

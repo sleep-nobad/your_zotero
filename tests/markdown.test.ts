@@ -18,4 +18,3 @@ test("keeps LaTeX-looking text literal inside code", () => {
   assert.match(html, /<code>\\\(t_\{pos\}\\\)<\/code>/);
   assert.match(html, /\$not_math\$/);
 });
-

@@ -17,4 +17,3 @@ pref("retrievalVerifiedAt", "");
 pref("maxEvidenceTokens", 6000);
 pref("storageDirectory", "");
 pref("language", "zh-CN");
-

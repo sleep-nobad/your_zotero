@@ -263,4 +263,3 @@ test("runs model discovery, chat, embeddings and compact vector cache end to end
     await rm(testRoot, { recursive: true, force: true });
   }
 });
-

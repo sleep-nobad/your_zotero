@@ -48,4 +48,3 @@ async function shutdown(_data, reason) {
 }
 
 function uninstall() {}
-

@@ -147,4 +147,3 @@ export default {
   onMainWindowUnload,
   onPrefsLoad,
 };
-

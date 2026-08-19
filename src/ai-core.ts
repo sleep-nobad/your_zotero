@@ -90,4 +90,3 @@ export function modelCatalogFromJSON(value: string): ModelRecord[] {
     return [];
   }
 }
-

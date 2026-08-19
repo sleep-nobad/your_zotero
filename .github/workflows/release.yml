@@ -29,4 +29,3 @@ jobs:
           gh release create "${GITHUB_REF_NAME}" release-upload/your-zotero.xpi release-upload/update.json \
             --title "your_zotero ${GITHUB_REF_NAME#v}" \
             --generate-notes
-

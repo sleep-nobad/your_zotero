@@ -36,4 +36,3 @@ export default defineConfig({
     waitForPlugin: `() => Zotero.${pkg.config.addonInstance}.initialized`,
   },
 });
-

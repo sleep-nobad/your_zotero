@@ -4,4 +4,3 @@
 // @ts-nocheck
 export type FluentMessageId =
   | 'papercompanion-name';
-

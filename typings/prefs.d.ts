@@ -29,4 +29,3 @@ declare namespace _ZoteroTypes {
     };
   }
 }
-

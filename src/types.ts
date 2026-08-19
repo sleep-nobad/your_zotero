@@ -94,4 +94,3 @@ export interface BackgroundSource {
   abstract: string;
   url: string;
 }
-
