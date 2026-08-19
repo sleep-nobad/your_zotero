@@ -9,6 +9,7 @@ permissions:
   contents: read
 
 jobs:
+  # Keep every push checked before it is used for a release.
   test:
     runs-on: ubuntu-latest
     steps:
