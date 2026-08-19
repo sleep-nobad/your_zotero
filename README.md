@@ -93,7 +93,7 @@ npm run build
 
 ## 发布
 
-发布者可使用 GitHub Actions 或本地构建生成 `.xpi`，再将其作为 Release asset 上传。`addon/manifest.json` 中的更新地址指向本仓库的 `release/update.json`；发布新版本时请同步更新版本号、更新清单和 SHA-256 哈希。
+发布者可使用 GitHub Actions 或本地构建生成 `.xpi`，再将其作为 Release asset 上传。`addon/manifest.json` 中的更新地址指向本仓库最新 Release 的 `update.json`；发布新版本时请同步更新版本号、更新清单和 SHA-512 哈希。
 
 ## License
 
